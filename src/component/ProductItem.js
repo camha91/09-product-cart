@@ -14,7 +14,12 @@ class ProductItem extends Component {
         <div className="card-body">
           <h4 className="card-title">{productItem.series}</h4>
           <p className="card-text">{productItem.price}</p>
-          <button onClick={() => {}} className="btn btn-success">
+          <button
+            onClick={() => {
+              this.props.addToCart(productItem);
+            }}
+            className="btn btn-success"
+          >
             Add to Cart
           </button>
         </div>

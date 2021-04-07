@@ -24,7 +24,7 @@ class ProductList extends Component {
     return this.productList.map((phone, index) => {
       return (
         <div className="col-4" key={index}>
-          <ProductItem productItem={phone} />
+          <ProductItem addToCart={this.props.addToCart} productItem={phone} />
         </div>
       );
     });
