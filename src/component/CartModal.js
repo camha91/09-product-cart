@@ -15,9 +15,19 @@ class CartModal extends Component {
             />
           </td>
           <td>{product.series}</td>
-          <td>{product.price}</td>
-          <td>{product.qty}</td>
-          <td>{product.qty * product.price}</td>
+          <td>{product.price.toLocaleString()}</td>
+          <td>{product.qty.toLocaleString()}</td>
+          <td>{(product.qty * product.price).toLocaleString()}</td>
+          <td>
+            <button
+              onClick={() => {
+                this.props.removeCartItem(product.id);
+              }}
+              className="btn btn-danger"
+            >
+              Remove
+            </button>
+          </td>
         </tr>
       );
     });
