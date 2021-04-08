@@ -6,7 +6,7 @@ class CartModal extends Component {
     return cartList.map((product, index) => {
       return (
         <tr key={index}>
-          <td>{product.id}</td>
+          <td>{product.productId}</td>
           <td>
             <img
               style={{ width: "35px" }}
@@ -15,13 +15,31 @@ class CartModal extends Component {
             />
           </td>
           <td>{product.series}</td>
-          <td>{product.price.toLocaleString()}</td>
-          <td>{product.qty.toLocaleString()}</td>
-          <td>{(product.qty * product.price).toLocaleString()}</td>
+          <td>${product.price.toLocaleString()}</td>
           <td>
             <button
               onClick={() => {
-                this.props.removeCartItem(product.id);
+                this.props.changeQty(product.productId, -1);
+              }}
+              className="btn btn-success"
+            >
+              -
+            </button>
+            {product.qty.toLocaleString()}
+            <button
+              onClick={() => {
+                this.props.changeQty(product.productId, 1);
+              }}
+              className="btn btn-success"
+            >
+              +
+            </button>
+          </td>
+          <td>${(product.qty * product.price).toLocaleString()}</td>
+          <td>
+            <button
+              onClick={() => {
+                this.props.removeCartItem(product.productId);
               }}
               className="btn btn-danger"
             >
@@ -31,6 +49,15 @@ class CartModal extends Component {
         </tr>
       );
     });
+  };
+
+  subTotal = () => {
+    let { cartList } = this.props;
+    return cartList
+      .reduce((subTotal, cartItem, index) => {
+        return (subTotal += cartItem.qty * cartItem.price);
+      }, 0)
+      .toLocaleString();
   };
   render() {
     let { cartList } = this.props;
@@ -67,15 +94,22 @@ class CartModal extends Component {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>Product ID</th>
                       <th>Image</th>
                       <th>Product Name</th>
-                      <th>Quantity</th>
                       <th>Price</th>
+                      <th>Quantity</th>
                       <th>Total Price</th>
                     </tr>
                   </thead>
                   <tbody>{this.renderCart()}</tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan="5"></td>
+                      <td>SubTotal</td>
+                      <td>${this.subTotal()}</td>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
               <div className="modal-footer">

@@ -5,26 +5,11 @@ import ProductItem from "./ProductItem";
 class ProductList extends Component {
   productList = dataPhones;
 
-  state = {
-    currentPhone: {
-      id: 1,
-      series: "Samsung Galaxy S21",
-      screenSize: "6.2 inches",
-      operatingSystem: "Android 11",
-      frontCamera: "10 MP",
-      rearCamera: "12 MP",
-      ram: "8 GB",
-      internalMemory: "128 GB",
-      price: 649.99,
-      image: "./img/phone_samsungS21.png",
-    },
-  };
-
   renderPhoneList = () => {
-    return this.productList.map((phone, index) => {
+    return this.productList.map((product, index) => {
       return (
         <div className="col-4" key={index}>
-          <ProductItem addToCart={this.props.addToCart} productItem={phone} />
+          <ProductItem addToCart={this.props.addToCart} productItem={product} />
         </div>
       );
     });
