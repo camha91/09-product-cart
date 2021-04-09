@@ -1,67 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class CartModal extends Component {
-  renderCart = () => {
-    let { cartList } = this.props;
-    return cartList.map((product, index) => {
-      return (
-        <tr key={index}>
-          <td>{product.productId}</td>
-          <td>
-            <img
-              style={{ width: "35px" }}
-              src={product.image}
-              alt={product.image}
-            />
-          </td>
-          <td>{product.series}</td>
-          <td>${product.price.toLocaleString()}</td>
-          <td>
-            <button
-              onClick={() => {
-                this.props.changeQty(product.productId, -1);
-              }}
-              className="btn btn-success"
-            >
-              -
-            </button>
-            {product.qty.toLocaleString()}
-            <button
-              onClick={() => {
-                this.props.changeQty(product.productId, 1);
-              }}
-              className="btn btn-success"
-            >
-              +
-            </button>
-          </td>
-          <td>${(product.qty * product.price).toLocaleString()}</td>
-          <td>
-            <button
-              onClick={() => {
-                this.props.removeCartItem(product.productId);
-              }}
-              className="btn btn-danger"
-            >
-              Remove
-            </button>
-          </td>
-        </tr>
-      );
-    });
-  };
-
-  subTotal = () => {
-    let { cartList } = this.props;
-    return cartList
-      .reduce((subTotal, cartItem, index) => {
-        return (subTotal += cartItem.qty * cartItem.price);
-      }, 0)
-      .toLocaleString();
-  };
   render() {
-    let { cartList } = this.props;
-
+    console.log(this.props.cart);
     return (
       <div>
         {/* Modal */}
@@ -102,14 +44,26 @@ class CartModal extends Component {
                       <th>Total Price</th>
                     </tr>
                   </thead>
-                  <tbody>{this.renderCart()}</tbody>
-                  <tfoot>
-                    <tr>
-                      <td colSpan="5"></td>
-                      <td>SubTotal</td>
-                      <td>${this.subTotal()}</td>
-                    </tr>
-                  </tfoot>
+                  <tbody>
+                    {this.props.cart.map((product, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{product.productId}</td>
+                          <td>
+                            <img
+                              src={product.image}
+                              alt={product.image}
+                              width={50}
+                              height={50}
+                            />
+                          </td>
+                          <td>{product.series}</td>
+                          <td>{product.price}</td>
+                          <td>{product.qty}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
                 </table>
               </div>
               <div className="modal-footer">
@@ -132,4 +86,12 @@ class CartModal extends Component {
   }
 }
 
-export default CartModal;
+// Function to turn state redux to props of component
+const mapStateToProps = (state) => {
+  // state is state of the app contain all chilren state (rootReducer)
+  return {
+    cart: state.stateCart.cart,
+  };
+};
+
+export default connect(mapStateToProps)(CartModal);
