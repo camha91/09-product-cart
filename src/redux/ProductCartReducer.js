@@ -1,16 +1,27 @@
+/* eslint-disable default-case */
 const stateCart = {
-  cart: [
-    {
-      productId: 1,
-      image: "",
-      series: "Galaxy S21",
-      price: 649.99,
-      qty: 1,
-    },
-  ],
+  cart: [],
 };
 
 const ProductCartReducer = (state = stateCart, action) => {
+  switch (action.type) {
+    case "ADD_TO_CART": {
+      let index = state.cart.findIndex(
+        (cartItem) => cartItem.productId === action.cartItem.productId
+      );
+
+      if (index !== -1) {
+        state.cart[index].qty += 1;
+      } else {
+        state.cart.push(action.cartItem);
+      }
+
+      // Set state
+      state.cart = [...state.cart];
+
+      return { ...state };
+    }
+  }
   return { ...state };
 };
 

@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import CartModal from "./CartModal";
 import ProductList from "./ProductList";
+import { connect } from "react-redux";
 
 class ProductCart extends Component {
+  renderTotalCartItem = () => {
+    return this.props.cart.reduce((totalCartItem, cartItem, index) => {
+      return (totalCartItem += cartItem.qty);
+    }, 0);
+  };
   render() {
     return (
       <div>
@@ -14,7 +20,8 @@ class ProductCart extends Component {
             data-target="#modelId"
           >
             <i className="fa fa-cart">
-              <i className="fa fa-cart-arrow-down"></i>(0) Cart
+              <i className="fa fa-cart-arrow-down"></i>(
+              {this.renderTotalCartItem()}) Cart
             </i>
           </span>
         </div>
@@ -26,4 +33,11 @@ class ProductCart extends Component {
   }
 }
 
-export default ProductCart;
+// Get state from redux store to become props of component
+const mapStateToProps = (state) => {
+  return {
+    cart: state.stateCart.cart,
+  };
+};
+
+export default connect(mapStateToProps)(ProductCart);
