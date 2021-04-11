@@ -1,7 +1,7 @@
 [
   {
     "productId": 1,
-    "series": "Samsung Galaxy S21",
+    "productName": "Samsung Galaxy S21",
     "screenSize": "6.2 inches",
     "operatingSystem": "Android 11",
     "frontCamera": "10 MP",
@@ -13,7 +13,7 @@
   },
   {
     "productId": 2,
-    "series": "Apple iPhone 12 Pro Max",
+    "productName": "Apple iPhone 12 Pro Max",
     "screenSize": "6.7 inches",
     "operatingSystem": "Apple iOS 14",
     "frontCamera": "12 MP",
@@ -25,7 +25,7 @@
   },
   {
     "productId": 3,
-    "series": "Google Pixel 5",
+    "productName": "Google Pixel 5",
     "screenSize": "5.96 inches",
     "operatingSystem": "Android 10",
     "rearCamera": "8 MP",

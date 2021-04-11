@@ -21,8 +21,26 @@ const ProductCartReducer = (state = stateCart, action) => {
 
       return { ...state };
     }
+    case "REMOVE_CART_ITEM": {
+      let updateCart = [...state.cart];
+
+      // Find cart item to remove based on productId
+      let index = updateCart.findIndex(
+        (cardItem) => cardItem.productId === action.productId
+      );
+
+      if (index !== -1) {
+        updateCart.splice(index, 1);
+      }
+
+      // Set state
+      state.cart = updateCart;
+
+      return { ...state };
+    }
+    default:
+      return { ...state };
   }
-  return { ...state };
 };
 
 export default ProductCartReducer;

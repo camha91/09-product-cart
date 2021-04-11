@@ -57,9 +57,22 @@ class CartModal extends Component {
                               height={50}
                             />
                           </td>
-                          <td>{product.series}</td>
-                          <td>{product.price}</td>
-                          <td>{product.qty}</td>
+                          <td>{product.productName}</td>
+                          <td>{product.price.toLocaleString()}</td>
+                          <td>{product.qty.toLocaleString()}</td>
+                          <td>
+                            {(product.qty * product.price).toLocaleString()}
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => {
+                                this.props.removeCartItem(product.productId);
+                              }}
+                              className="btn btn-primary"
+                            >
+                              Remove
+                            </button>
+                          </td>
                         </tr>
                       );
                     })}
@@ -94,4 +107,18 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CartModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeCartItem: (productId) => {
+      let action = {
+        type: "REMOVE_CART_ITEM",
+        productId,
+      };
+      console.log(productId);
+
+      dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartModal);

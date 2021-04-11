@@ -13,7 +13,7 @@ class ProductItem extends Component {
           alt={productItem.image}
         />
         <div className="card-body">
-          <h4 className="card-title">{productItem.series}</h4>
+          <h4 className="card-title">{productItem.productName}</h4>
           <p className="card-text">${productItem.price}</p>
           <button
             onClick={() => {
@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
       const cartItem = {
         productId: product.productId,
         image: product.image,
-        series: product.image,
+        productName: product.productName,
         price: product.price,
         qty: 1,
       };
