@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 class CartModal extends Component {
+  getSubTotal = () => {
+    return this.props.cart
+      .reduce((subTotal, cartItem, index) => {
+        return (subTotal += cartItem.price * cartItem.qty);
+      }, 0)
+      .toLocaleString();
+  };
   render() {
-    console.log(this.props.cart);
     return (
       <div>
         {/* Modal */}
@@ -58,17 +64,41 @@ class CartModal extends Component {
                             />
                           </td>
                           <td>{product.productName}</td>
-                          <td>{product.price.toLocaleString()}</td>
-                          <td>{product.qty.toLocaleString()}</td>
+                          <td>${product.price.toLocaleString()}</td>
                           <td>
-                            {(product.qty * product.price).toLocaleString()}
+                            <button
+                              onClick={() => {
+                                this.props.changeCartItemQty(
+                                  product.productId,
+                                  false
+                                );
+                              }}
+                              className="btn btn-primary"
+                            >
+                              -
+                            </button>
+                            {product.qty.toLocaleString()}
+                            <button
+                              onClick={() => {
+                                this.props.changeCartItemQty(
+                                  product.productId,
+                                  true
+                                );
+                              }}
+                              className="btn btn-primary"
+                            >
+                              +
+                            </button>
+                          </td>
+                          <td>
+                            ${(product.qty * product.price).toLocaleString()}
                           </td>
                           <td>
                             <button
                               onClick={() => {
                                 this.props.removeCartItem(product.productId);
                               }}
-                              className="btn btn-primary"
+                              className="btn btn-danger"
                             >
                               Remove
                             </button>
@@ -77,6 +107,13 @@ class CartModal extends Component {
                       );
                     })}
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan="5"></td>
+                      <th>SubTotal</th>
+                      <th>${this.getSubTotal()}</th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
               <div className="modal-footer">
@@ -114,8 +151,17 @@ const mapDispatchToProps = (dispatch) => {
         type: "REMOVE_CART_ITEM",
         productId,
       };
-      console.log(productId);
 
+      dispatch(action);
+    },
+    changeCartItemQty: (productId, changeQty) => {
+      // changeQty = true => Increase --- changeQty = false => Decrease
+      let action = {
+        type: "CHANGE_CART_ITEM_QTY",
+        productId,
+        changeQty,
+      };
+      console.log(productId);
       dispatch(action);
     },
   };

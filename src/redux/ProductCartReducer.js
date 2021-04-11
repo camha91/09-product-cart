@@ -38,6 +38,30 @@ const ProductCartReducer = (state = stateCart, action) => {
 
       return { ...state };
     }
+    case "CHANGE_CART_ITEM_QTY": {
+      let updateCart = [...state.cart];
+
+      //Find cart item to change the qty based on productId and true or false
+      let index = updateCart.findIndex(
+        (cartItem) => cartItem.productId === action.productId
+      );
+
+      if (index !== -1) {
+        if (action.changeQty === true) {
+          updateCart[index].qty += 1;
+        } else {
+          if (updateCart[index].qty > 1) {
+            updateCart[index].qty -= 1;
+          } else {
+            alert("Quantity is at least 1!");
+          }
+        }
+      }
+
+      state.cart = updateCart;
+
+      return { ...state };
+    }
     default:
       return { ...state };
   }
